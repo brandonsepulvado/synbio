@@ -96,7 +96,7 @@ ethics_data %>%
   coord_flip() +
   theme_minimal() +
   labs(y = 'Number of Occurrences',
-       x = NULL)
+       x = NULL) 
 
 # count of wos categories
 ethics_data %>% 
