@@ -58,6 +58,9 @@ data_subset = data_subset.rename(columns = rename_dict)
 data_subset.loc[:,'abstract'] = data_subset.loc[:,'abstract'].str.lower()
 data_subset.loc[:,'author_keywords'] = data_subset.loc[:,'author_keywords'].str.lower()
 
+# save data object to csv
+# data_subset.to_csv('/Users/brandonsepulvado/Documents/synbio/data/web_of_science/data_subset.csv', index=False)
+
 # basic descriptives ===========================================================
 
 # number of publications per year
