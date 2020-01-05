@@ -22,7 +22,7 @@ data = pd.concat(data_list)
 # clean data ===================================================================
 
 # which variables to keep
-vars_to_keep = ['PT', 'AU', 'OA', 'PM', 'PY', 'TI', 'AB', 'DE', 'SO']
+vars_to_keep = ['PT', 'AU', 'OA', 'PM', 'PY', 'TI', 'AB', 'DE', 'SO', 'WC', 'SC']
 
 # subset data based upon selected variables
 data_subset = data[vars_to_keep]
@@ -49,7 +49,9 @@ rename_dict = {
     'TI' : 'title', 
     'AB' : 'abstract', 
     'DE' : 'author_keywords',
-    'SO' : 'pub_title'
+    'SO' : 'pub_title',
+    'WC' : 'wos_categs',
+    'SC' : 'research_areas'
 }
 
 # apply dictionary to give columns substantive names
