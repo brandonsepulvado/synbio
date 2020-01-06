@@ -11,6 +11,9 @@ library(stm)
 library(stmCorrViz)
 library(here)
 
+# set seed
+set.seed(1234)
+
 # load data into stm object ====================================================
 
 # ensure that there are no missing abstract
@@ -68,7 +71,7 @@ plotRemoved(ethics_processed$documents, lower.thresh = seq(1, 50, by = 1))
 ethics_out <- prepDocuments(ethics_processed$documents, 
                             ethics_processed$vocab,
                             ethics_processed$meta, 
-                            lower.thresh = 10)
+                            lower.thresh = 5)
 
 # topic number diagnostics 
 ethics_k_diag <- searchK(out$documents, 
@@ -76,7 +79,15 @@ ethics_k_diag <- searchK(out$documents,
                          K = seq(5, 20, 1), 
                          data = meta, 
                          cores = 5L)
-# save results
-saveRDS(ethics_k_diag,
-        file = here::here('data', 'ethics_k_diag.rds'))
+# # save results
+# saveRDS(ethics_k_diag,
+#         file = here::here('data', 'ethics_k_diag.rds'))
 
+# estimate stm on ethics data ==================================================
+
+ethics_k10 <- stm(documents = ethics_out$documents, 
+                  vocab = ethics_out$vocab,
+                  K = 10, 
+                  max.em.its = 100, 
+                  data = ethics_out$meta,
+                  init.type = "Spectral")
