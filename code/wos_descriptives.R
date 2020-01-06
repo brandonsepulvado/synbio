@@ -84,6 +84,18 @@ data %>%
 ethics_data <- data %>% 
   filter(str_detect(abstract, "ethic|security|safe|dilemma"))
 
+# count publications per year
+ethics_data %>% 
+  filter(!is.na(pub_year), 
+         pub_year < 2020) %>% 
+  count(pub_year, sort = TRUE) %>% 
+  ggplot(aes(x = pub_year, y = n)) +
+  geom_point() +
+  geom_line() +
+  theme_minimal() +
+  labs(x = 'Publication Year',
+       y = 'Number of Publications')
+
 # top keywords around ethics
 ethics_data %>% 
   filter(!is.na(author_keywords)) %>% 
