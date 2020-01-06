@@ -79,15 +79,15 @@ ethics_k_diag <- searchK(out$documents,
                          K = seq(5, 20, 1), 
                          data = meta, 
                          cores = 5L)
-# # save results
-# saveRDS(ethics_k_diag,
-#         file = here::here('data', 'ethics_k_diag.rds'))
+# save results
+saveRDS(ethics_k_diag,
+        file = here::here('data', 'ethics_k_diag.rds'))
 
 # estimate stm on ethics data ==================================================
 
 ethics_k10 <- stm(documents = ethics_out$documents, 
                   vocab = ethics_out$vocab,
-                  K = 10, 
+                  K = 9, 
                   max.em.its = 100, 
                   data = ethics_out$meta,
                   init.type = "Spectral")
