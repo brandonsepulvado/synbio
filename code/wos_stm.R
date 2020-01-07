@@ -91,3 +91,21 @@ ethics_k10 <- stm(documents = ethics_out$documents,
                   max.em.its = 100, 
                   data = ethics_out$meta,
                   init.type = "Spectral")
+
+# visualize results : prevalence
+plot(ethics_k10, labeltype = 'frex', n = 5)
+
+# get two quotes per topic
+thoughts <- findThoughts(ethics_k10, texts = ethics_out$meta$title, 
+             topics = c(1:9), n = 2)
+
+# plot quotes for each topic
+plotQuote(thoughts$docs$`Topic 1`, maxwidth = 300, width = 50)
+plotQuote(thoughts$docs$`Topic 2`, maxwidth = 300, width = 50)
+plotQuote(thoughts$docs$`Topic 3`, maxwidth = 300, width = 50)
+plotQuote(thoughts$docs$`Topic 4`, maxwidth = 300, width = 50)
+plotQuote(thoughts$docs$`Topic 5`, maxwidth = 300, width = 50)
+plotQuote(thoughts$docs$`Topic 6`, maxwidth = 300, width = 50)
+plotQuote(thoughts$docs$`Topic 7`, maxwidth = 300, width = 50)
+plotQuote(thoughts$docs$`Topic 8`, maxwidth = 300, width = 50)
+plotQuote(thoughts$docs$`Topic 9`, maxwidth = 300, width = 50)
