@@ -180,3 +180,46 @@ ethics_data %>%
        subtitle = 'Source: Web of Science',
        caption = 'Note: These publications are a subset of the previous records whose abstract contains ethic*, security, safe*, or dilemma.')
 
+# number of authors per year
+ethics_data %>% 
+  filter(!is.na(authors), !is.na(pub_year)) %>% 
+  unnest_tokens(author, authors, token = "regex", pattern = ";") %>% 
+  group_by(pub_year) %>% 
+  summarise(num_authors = n_distinct(author)) %>% 
+  ggplot(aes(x = pub_year, y = num_authors)) +
+  geom_point() +
+  geom_line() +
+  theme_minimal()
+
+# number of wos categories per year
+ethics_data %>% 
+  filter(!is.na(wos_categs), !is.na(pub_year)) %>% 
+  unnest_tokens(categ, wos_categs, token = "regex", pattern = ";") %>% 
+  group_by(pub_year) %>% 
+  summarise(num_categs = n_distinct(categ)) %>% 
+  ggplot(aes(x = pub_year, y = num_categs)) +
+  geom_point() +
+  geom_line() +
+  theme_minimal() +
+  labs(x = 'Publication Year',
+       y = 'Number of Fields',
+       title = 'Number of Distinct Fields Per Year',
+       subtitle = 'Source: Web of Science',
+       caption = 'Note: These publications are a subset of the previous records whose abstract contains ethic*, security, safe*, or dilemma.')
+  
+# number of outlets per year
+ethics_data %>% 
+  filter(!is.na(pub_title), !is.na(pub_year)) %>% 
+  #unnest_tokens(title_pub, wos_categs, token = "regex", pattern = ";") %>% 
+  group_by(pub_year) %>% 
+  summarise(num_titles = n_distinct(pub_title)) %>% 
+  ggplot(aes(x = pub_year, y = num_titles)) +
+  geom_point() +
+  geom_line() +
+  theme_minimal() +
+  labs(x = 'Publication Year',
+       y = 'Number of Outlets',
+       title = 'Number of Distinct Publication Outlets Per Year',
+       subtitle = 'Source: Web of Science',
+       caption = 'Note: These publications are a subset of the previous records whose abstract contains ethic*, security, safe*, or dilemma.')
+
