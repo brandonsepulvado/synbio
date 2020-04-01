@@ -22,7 +22,8 @@ data = pd.concat(data_list)
 # clean data ===================================================================
 
 # which variables to keep
-vars_to_keep = ['PT', 'AU', 'OA', 'PM', 'PY', 'TI', 'AB', 'DE', 'SO', 'WC', 'SC']
+vars_to_keep = ['PT', 'AU', 'OA', 'PM', 'PY', 'TI', 'AB', 'DE', 'SO', 'WC', 'SC', 
+                'C1', 'EM']
 
 # subset data based upon selected variables
 data_subset = data[vars_to_keep]
@@ -51,7 +52,9 @@ rename_dict = {
     'DE' : 'author_keywords',
     'SO' : 'pub_title',
     'WC' : 'wos_categs',
-    'SC' : 'research_areas'
+    'SC' : 'research_areas',
+    'C1' : 'author_address',
+    'EM' : 'email_address'
 }
 
 # apply dictionary to give columns substantive names
@@ -64,7 +67,7 @@ data_subset.loc[:,'pub_title'] = data_subset.loc[:,'pub_title'].str.lower()
 
 
 # save data object to csv
-data_subset.to_csv('/Users/brandonsepulvado/Documents/synbio/data/web_of_science/data_subset.csv', index=False)
+data_subset.to_csv('/Users/brandonsepulvado/Documents/synbio/data/web_of_science/data_subset_2020-03-07.csv', index=False)
 
 # basic descriptives ===========================================================
 
