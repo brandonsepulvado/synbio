@@ -40,7 +40,7 @@ for token in abstract_corpus[0]:
 
 # default tokenizer
 nlp = spacy.load("en_core_web_lg")
-doc = nlp("mother-in-law")
+doc = nlp(abstract_list[257])
 
 # modify tokenizer infix patterns
 infixes = (
@@ -61,3 +61,6 @@ infixes = (
 infix_re = compile_infix_regex(infixes)
 nlp.tokenizer.infix_finditer = infix_re.finditer
 doc = nlp("mother-in-law")
+
+for token in doc:
+    print(token.text)
