@@ -11,6 +11,8 @@ library(stringr)
 library(tidytext)
 library(ggplot2)
 library(forcats)
+library(readxl)
+library(tidyr)
 
 # load data
 data <- read.csv('/Users/brandonsepulvado/Documents/synbio/data/web_of_science/data_subset.csv',
@@ -80,9 +82,66 @@ data %>%
 
 # ethics-related records =======================================================
 
-# subset data
-ethics_data <- data %>% 
-  filter(str_detect(abstract, "ethic|security|safe|dilemma"))
+# ethics data (filtered in python)
+ethics_data <- read_excel('/Users/brandonsepulvado/Documents/synbio/data/web_of_science/data_processed/data_ethics.xlsx')
+
+# # subset data
+# ethics_data <- data %>% 
+#   filter(str_detect(abstract, "ethic|security|safe|dilemma")) %>% 
+#   as_tibble()
+
+ethics_data %>% 
+  filter(str_detect(AB, "auto")) %>% 
+  View()
+
+# count institutions per year
+ethics_data %>% 
+  filter(!is.na(PY), 
+         PY < 2020) %>% 
+  mutate(inst = str_extract_all(C1, "\\][[:alnum:][:blank:]]+,")) %>% 
+  unnest(cols = c(inst)) %>% 
+  mutate( 
+    inst = str_remove_all(inst, "[[:punct:]]"),
+    inst = str_trim(inst, "both"),
+    inst = str_to_lower(inst)
+    ) %>% 
+  select(PY, inst) %>% 
+  distinct() %>% 
+  group_by(PY) %>% 
+  summarise(n_inst = n_distinct(inst)) %>% 
+  ggplot(aes(x = PY, y = n_inst)) +
+  geom_line() +
+  geom_point() +
+  geom_vline(xintercept = 2007, color = 'orange2') +
+  theme_minimal() +
+  labs(x = 'Publication Year',
+       y = 'Number of Institutions',
+       title = 'Number of Unique Institutions per Year, 1900-2019',
+       subtitle = 'Source: Web of Science',
+       caption = "Note: Vertical line is at 2007, when the number of publications began exponential growth.")
+
+
+# number of unique authors per year
+ethics_data %>% 
+  filter(!is.na(PY), 
+         PY < 2020,
+         !is.na(AU)) %>% 
+  unnest_tokens(author, AU, token = stringr::str_split, pattern = ";") %>% 
+  mutate(author = str_trim(author, "both")) %>% 
+  select(PY, author) %>% 
+  distinct() %>% 
+  group_by(PY) %>% 
+  summarise(n_auth = n_distinct(author)) %>% 
+  ggplot(aes(x = PY, y = n_auth)) +
+  geom_line() +
+  geom_point() +
+  geom_vline(xintercept = 2007, color = 'orange2') +
+  theme_minimal() +
+  labs(x = 'Publication Year',
+       y = 'Number of Authors',
+       title = 'Number of Unique Authors per Year, 1900-2019',
+       subtitle = 'Source: Web of Science',
+       caption = "Note: Vertical line is at 2007, when the number of publications began exponential growth.")
 
 # count publications per year
 ethics_data %>% 
